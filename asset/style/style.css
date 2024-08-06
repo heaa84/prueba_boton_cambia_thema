@@ -1,0 +1,42 @@
+*{
+    /*border: 1px, solid, red;*/
+}
+
+.contener__nav{
+    display: flex;
+    justify-content: end;
+    margin-right: 50%; /*cambiar a un 5 %*/
+}
+
+.contener__btn__theme{
+    width: 80px;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.borde__btn__theme{
+    width: 50px;
+    display: flex;
+    align-items: center;
+    box-sizing: 1px;
+    border-style: outset;
+    border-color: rgb(202, 225, 239);
+    background-color: rgb(239, 235, 235);
+    border-radius: 9px;
+}
+
+#btnTheme{
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    background-color: gold;
+    border: 1px;
+    border-color: goldenrod;
+    border-style: inset;
+    position: relative;
+}
+
+.borde__btn__theme:hover{
+    cursor: pointer;
+}
