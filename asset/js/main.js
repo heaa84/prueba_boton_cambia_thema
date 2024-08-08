@@ -1,52 +1,71 @@
-let btnTheme=document.querySelector(".borde__btn__theme");
-let body=document.querySelector("body");
-let esfera=document.querySelector("#btnTheme");
-let posEjeX=0; //velocidad en milisegundos
-const finEjeX=35;//distancia a recorrer del boton
-const velocidad=15;//tiempo de duracion del efecto
-let colorThemaOscuro=255;
-let colorThemaClaro=0;
+const btnTheme=document.querySelector(".borde__btn__theme");
+const esfera=document.querySelector("#btnTheme");
+const body=document.querySelector("body");
+const texto=document.querySelector("body");
+let posicionEsfera=0;
+//colores en tema claro
+let colorFondoBody=`hwb(180 20% 50% / 0.3)`;
+let colorFondoEsfera=`hwb(200 40% 10% / 0.3)`;
+let colorBorderEsfera=`hwb(180 40% 30% / 0.3)`;
+let colorFondoBoton=`hwb(180 20% 60% / 0.3)`;
+let colorBorderBoton=`hwb(180 20% 50% / 0.3)`;
+let colortextoBody=`hwb(180 50% 70%)`;
 
+//colores en tema oscuro
+let colorFondoBodyOscuro=`hwb(180 10% 75%)`;
+let colortextoBodyOscuro=`hwb(180 30% 25%)`;
+let colorBorderBotonOscuro=`hwb(180 50% 20%)`;
+let colorFondoEsferaOscuro=`hwb(200 20% 20%)`;
+let colorBorderEsferaOscuro=`hwb(180 40% 30%)`;
+
+//clase de los elementos
+class elementos {
+    constructor(elemento, hwbBackground, hwbBorder, hwbTexto ,posicionEsfera) {
+        this.elemento=elemento;
+        this.hwbBackground=hwbBackground;
+        this.hwbBorder=hwbBorder;
+        this.hwbTexto=hwbTexto;
+        this.posicionEsfera=posicionEsfera;
+    }
+    coloriarElemento = () => {        
+        this.elemento.style.background=`${this.hwbBackground}`;
+        this.elemento.style.borderColor=`${this.hwbBorder}`;    
+        this.elemento.style.color=`${this.hwbTexto}`; 
+        this.elemento.style.left=`${this.posicionEsfera}px`;
+    }
+};
+//instancias de objetos elementos en modo claro
+const MyBody= new elementos(body, colorFondoBody , null , colortextoBody );
+const MyEsfera= new elementos(esfera, colorFondoEsfera,colorBorderEsfera,null,0);
+const MyBtnTheme= new elementos(btnTheme, colorFondoBoton,colorBorderBoton);
+
+//modo tema oscuro
+const MyBodyOscuro= new elementos(body, colorFondoBodyOscuro , null ,colortextoBodyOscuro );
+const MyBtnThemeOscuro= new elementos(btnTheme, colorFondoBoton,colorBorderBotonOscuro);
+const MyEsferaOscura= new elementos(esfera, colorFondoEsferaOscuro,colorBorderEsferaOscuro,null,34);
+
+//invocando metodos tema claro
+MyBody.coloriarElemento();
+MyEsfera.coloriarElemento();
+MyBtnTheme.coloriarElemento();
+
+// cuando se de click al boton
 btnTheme.addEventListener("click",()=>{
-    //movimiento de boton al derecha si el boton estava en la isquierda
-    if (posEjeX==0) {
-        intervaloT=setInterval(() => {
-            esfera.style.left=`${posEjeX}px`;
-            if (posEjeX < finEjeX) {
-                posEjeX++;
-                colorThemaOscuro=colorThemaOscuro-6;
-                colorThemaClaro=colorThemaClaro+6;
-                console.log(colorThemaOscuro);
-                body.style.background=`rgb(${colorThemaOscuro}, ${colorThemaOscuro}, ${colorThemaOscuro})`;
-                body.style.color=`rgb(${colorThemaClaro}, ${colorThemaClaro}, ${colorThemaClaro})`;
-            } else {
-                clearInterval(intervaloT);
-                body.style.color="white";
-                body.style.background="black";
-                colorThemaOscuro=255;
-                colorThemaClaro=0;
-            }
-        }, velocidad); 
-    };
-
-    if (posEjeX==finEjeX) {
-        console.log("cdsv");
-        intervaloT=setInterval(() => {
-            esfera.style.left=`${posEjeX}px`;
-            if (posEjeX > 0) {
-                posEjeX--;
-                colorThemaClaro=colorThemaClaro+6;
-                colorThemaOscuro=colorThemaOscuro-6;
-                body.style.background=`rgb(${colorThemaClaro}, ${colorThemaClaro}, ${colorThemaClaro})`;
-                body.style.color=`rgb(${colorThemaOscuro}, ${colorThemaOscuro}, ${colorThemaOscuro})`;
-            } else {
-                clearInterval(intervaloT);
-                body.style.color="black";
-                body.style.background="white";
-                colorThemaOscuro=255;
-                colorThemaClaro=0;
-            }
-        }, velocidad); 
-    };
-
+    //lanza modo oscuro si la esfera esta a la izquierda
+    if(posicionEsfera==0){
+        MyBodyOscuro.coloriarElemento();
+        MyBtnThemeOscuro.coloriarElemento();
+        MyEsferaOscura.coloriarElemento();
+        posicionEsfera=34;
+    }else{
+        //lanza modo claro si la esfera esta a la derecha
+        if(posicionEsfera==34){
+            MyBody.coloriarElemento();
+            MyEsfera.coloriarElemento();
+            MyBtnTheme.coloriarElemento();
+            posicionEsfera=0;
+            console.log(posicionEsfera);
+            
+        };
+    }
 })
